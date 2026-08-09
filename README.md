@@ -35,12 +35,6 @@ screenshots behave exactly like vanilla.
 Classic Forge users: you also need [MixinBooter](https://www.curseforge.com/minecraft/mc-mods/mixinbooter)
 installed, since classic Forge doesn't ship with a Mixin loader.
 
-## Build
-
-```bash
-./gradlew shadowJar
-```
-
 Produces one jar per loader in `build/libs/`. Requires Java 17 or later.
 
 ## Compatibility
@@ -57,7 +51,3 @@ quietly — the game runs as if the mod weren't there.
   finishes, so it may be slightly delayed.
 - If a screenshot is still being saved when a new one is taken, the new one
   is dropped to prevent file collisions.
-
-## License
-
-[GPL-3.0](LICENSE).
