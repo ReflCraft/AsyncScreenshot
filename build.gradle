@@ -144,6 +144,9 @@ platforms.each { platform ->
         // Project resources: shared config files + this platform's metadata.
         from(sourceSets.main.output.resourcesDir) {
             include 'asyncscreenshot.mixins.json'
+            // Mod icon + organization logo (referenced by loader metadata).
+            include 'assets/asyncscreenshot/icon.png'
+            include 'assets/asyncscreenshot/reflcraft.png'
             switch (platform) {
                 case 'fabric':   include 'fabric.mod.json'; break
                 case 'forge':    include 'META-INF/mods.toml'; break
