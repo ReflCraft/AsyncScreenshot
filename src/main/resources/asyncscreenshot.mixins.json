@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "org.refcraft.asyncscreenshot.core.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ScreenshotMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
