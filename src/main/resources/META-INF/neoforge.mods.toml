@@ -1,0 +1,31 @@
+# Async Screenshot Mod Metadata for NeoForge
+# Declares the mod to the NeoForge mod loader. Lives at META-INF/neoforge.mods.toml.
+
+modLoader = "javafml"
+loaderVersion = "[1,)"
+
+license = "GPL-3.0"
+
+[[mods]]
+modId = "asyncscreenshot"
+version = "${version}"
+displayName = "Async Screenshot"
+description = '''
+Take screenshots without freezing — PNG encoding & disk writes move off the
+render thread. Client-side, Fabric / Forge / NeoForge, MC 1.18-26.2.
+'''
+authors = "ReflCraft"
+
+[[dependencies.asyncscreenshot]]
+    modId = "neoforge"
+    mandatory = true
+    versionRange = "[1,)"
+    ordering = "NONE"
+    side = "CLIENT"
+
+[[dependencies.asyncscreenshot]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.18,)"
+    ordering = "NONE"
+    side = "CLIENT"
