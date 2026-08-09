@@ -1,9 +1,9 @@
 /*
  * This file is part of AsyncScreenshot (ReflCraft), GPL-3.0.
  */
-package org.refcraft.asyncscreenshot.neoforge;
+package io.github.reflcraft.asyncscreenshot.neoforge;
 
-import org.refcraft.asyncscreenshot.core.VersionProbe;
+import io.github.reflcraft.asyncscreenshot.core.VersionProbe;
 
 /**
  * NeoForge mod entry point. The work is done by the {@code ScreenshotMixin}

@@ -14,7 +14,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "org.refcraft.asyncscreenshot.fabric.FabricPlatform"
+      "io.github.reflcraft.asyncscreenshot.fabric.FabricPlatform"
     ]
   },
   "mixins": [

@@ -1,9 +1,9 @@
 /*
  * This file is part of AsyncScreenshot (ReflCraft), GPL-3.0.
  */
-package org.refcraft.asyncscreenshot.forge;
+package io.github.reflcraft.asyncscreenshot.forge;
 
-import org.refcraft.asyncscreenshot.core.VersionProbe;
+import io.github.reflcraft.asyncscreenshot.core.VersionProbe;
 
 /**
  * Forge mod entry point. The work is done by the {@code ScreenshotMixin}

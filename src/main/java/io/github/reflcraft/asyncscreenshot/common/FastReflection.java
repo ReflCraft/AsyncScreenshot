@@ -11,7 +11,7 @@
  *  (at your option) any later version.
  */
 
-package org.refcraft.asyncscreenshot.common;
+package io.github.reflcraft.asyncscreenshot.common;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

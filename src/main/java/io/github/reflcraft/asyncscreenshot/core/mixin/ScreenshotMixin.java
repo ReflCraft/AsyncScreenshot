@@ -23,9 +23,9 @@
  * the vanilla call; on any probe failure it returns false and vanilla runs
  * untouched (silent degradation).
  */
-package org.refcraft.asyncscreenshot.core.mixin;
+package io.github.reflcraft.asyncscreenshot.core.mixin;
 
-import org.refcraft.asyncscreenshot.core.ScreenshotHook;
+import io.github.reflcraft.asyncscreenshot.core.ScreenshotHook;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

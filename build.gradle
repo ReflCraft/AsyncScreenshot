@@ -67,7 +67,7 @@ dependencies {
     // Pulled in transitively by fabric-loader; declare explicitly for clarity.
     compileOnly 'net.fabricmc:sponge-mixin:0.11.4+mixin.0.8.5'
     // Forge / NeoForge: @Mod annotation is provided by a compile-time stub
-    // (org/refcraft/asyncscreenshot/stub/) to avoid pulling in the full
+    // (io/github/reflcraft/asyncscreenshot/stub/) to avoid pulling in the full
     // Forge/NeoForge JARs at compile time. At runtime the loader provides the
     // real classes.
 }
@@ -100,9 +100,9 @@ test {
 
 // ---- Per-platform shaded distribution JARs -------------------------------
 // Each platform JAR contains only:
-//   org/refcraft/asyncscreenshot/common/**  (platform-agnostic contracts + utils)
-//   org/refcraft/asyncscreenshot/core/**    (platform-agnostic async core)
-//   org/refcraft/asyncscreenshot/<platform>/** (that platform's entry + mixins)
+//   io/github/reflcraft/asyncscreenshot/common/**  (platform-agnostic contracts + utils)
+//   io/github/reflcraft/asyncscreenshot/core/**    (platform-agnostic async core)
+//   io/github/reflcraft/asyncscreenshot/<platform>/** (that platform's entry + mixins)
 // plus that platform's runtime dependencies and metadata. Output files are
 // named AsyncScreenshot-<version>+<loader>.jar.
 def platforms = ['fabric', 'forge', 'neoforge']
@@ -128,10 +128,10 @@ platforms.each { platform ->
 
         // Project classes: common + core + this platform only.
         from(sourceSets.main.output.classesDirs) {
-            include 'org/refcraft/asyncscreenshot/common/**'
-            include 'org/refcraft/asyncscreenshot/core/**'
-            include "org/refcraft/asyncscreenshot/${platform}/**"
-            others.each { p -> exclude "org/refcraft/asyncscreenshot/${p}/**" }
+            include 'io/github/reflcraft/asyncscreenshot/common/**'
+            include 'io/github/reflcraft/asyncscreenshot/core/**'
+            include "io/github/reflcraft/asyncscreenshot/${platform}/**"
+            others.each { p -> exclude "io/github/reflcraft/asyncscreenshot/${p}/**" }
             // Stub annotations for @Mod — compile-time only; the loader
             // provides the real net.minecraftforge.fml.common.Mod /
             // net.neoforged.fml.common.Mod.

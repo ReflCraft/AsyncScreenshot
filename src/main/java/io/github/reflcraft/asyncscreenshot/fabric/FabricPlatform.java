@@ -1,10 +1,10 @@
 /*
  * This file is part of AsyncScreenshot (ReflCraft), GPL-3.0.
  */
-package org.refcraft.asyncscreenshot.fabric;
+package io.github.reflcraft.asyncscreenshot.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
-import org.refcraft.asyncscreenshot.core.VersionProbe;
+import io.github.reflcraft.asyncscreenshot.core.VersionProbe;
 
 /**
  * Fabric client entry point. The actual work is done by the {@code ScreenshotMixin}

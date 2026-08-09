@@ -1,9 +1,9 @@
 /*
  * This file is part of AsyncScreenshot (ReflCraft), GPL-3.0.
  */
-package org.refcraft.asyncscreenshot.core;
+package io.github.reflcraft.asyncscreenshot.core;
 
-import org.refcraft.asyncscreenshot.common.FastReflection;
+import io.github.reflcraft.asyncscreenshot.common.FastReflection;
 
 import java.io.File;
 import java.lang.reflect.Method;
