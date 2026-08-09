@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "asyncscreenshot",
+  "version": "${version}",
+  "name": "Async Screenshot",
+  "description": "Take screenshots without freezing — PNG encoding & disk writes move off the render thread. Fabric / Forge / NeoForge, MC 1.18–26.2.",
+  "authors": [
+    "ReflCraft"
+  ],
+  "contact": {
+    "sources": "https://github.com/ReflCraft/AsyncScreenshot"
+  },
+  "license": "GPL-3.0",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.refcraft.asyncscreenshot.fabric.FabricPlatform"
+    ]
+  },
+  "mixins": [
+    "asyncscreenshot.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": ">=1.18",
+    "java": ">=17"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "client"
+      ]
+    }
+  }
+}
