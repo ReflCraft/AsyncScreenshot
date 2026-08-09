@@ -5,6 +5,7 @@ modLoader = "javafml"
 loaderVersion = "[1,)"
 
 license = "GPL-3.0"
+logoFile = "assets/asyncscreenshot/icon.png"
 
 [[mods]]
 modId = "asyncscreenshot"
