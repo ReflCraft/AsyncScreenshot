@@ -2,9 +2,6 @@
  * This file is part of AsyncScreenshot (ReflCraft), licensed under the
  * GNU General Public License v3.0.
  *
- * FastReflection is adapted from MinerTrack
- * (https://github.com/At87668/MinerTrack), GPL-3.0, Copyright (c) At87668.
- *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
