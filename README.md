@@ -60,5 +60,4 @@ quietly — the game runs as if the mod weren't there.
 
 ## License
 
-[GPL-3.0](LICENSE). The reflection approach is based on
-[MinerTrack](https://github.com/At87668/MinerTrack).
+[GPL-3.0](LICENSE).
