@@ -27,6 +27,6 @@ authors = "ReflCraft"
 [[dependencies.asyncscreenshot]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.18,)"
+    versionRange = "[1.20.1,)"
     ordering = "NONE"
     side = "CLIENT"

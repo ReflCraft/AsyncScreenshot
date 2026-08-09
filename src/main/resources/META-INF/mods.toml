@@ -17,12 +17,6 @@ render thread. Client-side, Fabric / Forge / NeoForge, MC 1.18-26.2.
 '''
 authors = "ReflCraft"
 
-[[dependencies.asyncscreenshot]]
-    modId = "forge"
-    mandatory = true
-    versionRange = "[1,)"
-    ordering = "NONE"
-    side = "CLIENT"
 
 [[dependencies.asyncscreenshot]]
     modId = "minecraft"
