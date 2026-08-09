@@ -1,0 +1,28 @@
+# Gradle / 构建
+.gradle/
+build/
+bin/
+out/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# 本地参考文件（Agent 生成，禁止提交）
+TEMPLATE.md
+*.project.md
+docs/
+Project/
+*.local.md
+mappings.md
+
+# 运行时产物
+run/
+*.log
+crash-reports/
+screenshots/
