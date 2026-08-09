@@ -11,6 +11,7 @@
     "sources": "https://github.com/ReflCraft/AsyncScreenshot"
   },
   "license": "GPL-3.0",
+  "icon": "assets/asyncscreenshot/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
