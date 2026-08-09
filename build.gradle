@@ -13,7 +13,7 @@ sourceCompatibility = Integer.parseInt(project.property('java_version') as Strin
 
 // Per-platform bundled (shaded) dependency sets. This is a client-side mod with
 // NO compile-time dependency on the Minecraft JAR (everything is runtime
-// reflection, following MinerTrack). Each distribution JAR bundles only the
+// reflection). Each distribution JAR bundles only the
 // runtime dependencies its platform needs:
 //   shadeFabric / shadeForge / shadeNeoForge — per-platform extras
 // These configurations feed the compile classpath (the source imports their
