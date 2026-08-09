@@ -149,7 +149,7 @@ platforms.each { platform ->
             switch (platform) {
                 case 'fabric':   include 'fabric.mod.json'; break
                 case 'forge':    include 'META-INF/mods.toml'; break
-                case 'neoforge': include 'META-INF/neoforge.mods.toml'; break
+                case 'neoforge': include 'META-INF/neoforge.mods.toml', 'META-INF/mods.toml'; break
             }
         }
 
