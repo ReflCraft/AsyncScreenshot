@@ -1,0 +1,186 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = project.property('group') as String
+version = project.property('mod_version') as String
+
+sourceCompatibility = Integer.parseInt(project.property('java_version') as String)
+
+// Per-platform bundled (shaded) dependency sets. This is a client-side mod with
+// NO compile-time dependency on the Minecraft JAR (everything is runtime
+// reflection, following MinerTrack). Each distribution JAR bundles only the
+// runtime dependencies its platform needs:
+//   shadeFabric / shadeForge / shadeNeoForge — per-platform extras
+// These configurations feed the compile classpath (the source imports their
+// classes directly) and are consumed individually by the per-platform
+// shadowJar tasks at the bottom of this file.
+configurations {
+    shadeFabric
+    shadeForge
+    shadeNeoForge
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/stub']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    maven {
+        name = 'Forge'
+        url = 'https://maven.minecraftforge.net/'
+    }
+    maven {
+        name = 'NeoForge'
+        url = 'https://maven.neoforged.net/releases'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+
+    // ---- compileOnly: provided by the loader at runtime, NOT bundled ----
+    // Fabric platform
+    compileOnly 'net.fabricmc:fabric-loader:0.14.22'
+    // Mixin (used by all three loaders at runtime; compile-time API only)
+    // Pulled in transitively by fabric-loader; declare explicitly for clarity.
+    compileOnly 'net.fabricmc:sponge-mixin:0.11.4+mixin.0.8.5'
+    // Forge / NeoForge: @Mod annotation is provided by a compile-time stub
+    // (org/refcraft/asyncscreenshot/stub/) to avoid pulling in the full
+    // Forge/NeoForge JARs at compile time. At runtime the loader provides the
+    // real classes.
+}
+
+// The compile classpath is deliberately free of net.minecraft.* — all MC
+// access goes through runtime reflection (FastReflection + VersionProbe).
+// Nothing extra to extend.
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    // Expand ${version} in the platform metadata files so the literal
+    // "${version}" never ships to a loader (Fabric rejects it at startup).
+    filesMatching(['**/fabric.mod.json', '**/mods.toml', '**/neoforge.mods.toml']) {
+        expand(version: project.version.toString())
+    }
+}
+
+// The plain jar is disabled — distribution is done by the per-platform
+// shadowJar tasks below.
+jar {
+    enabled = false
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// ---- Per-platform shaded distribution JARs -------------------------------
+// Each platform JAR contains only:
+//   org/refcraft/asyncscreenshot/common/**  (platform-agnostic contracts + utils)
+//   org/refcraft/asyncscreenshot/core/**    (platform-agnostic async core)
+//   org/refcraft/asyncscreenshot/<platform>/** (that platform's entry + mixins)
+// plus that platform's runtime dependencies and metadata. Output files are
+// named AsyncScreenshot-<version>+<loader>.jar.
+def platforms = ['fabric', 'forge', 'neoforge']
+
+def shadeForPlatform = [
+    'fabric':   [configurations.shadeFabric],
+    'forge':    [configurations.shadeForge],
+    'neoforge': [configurations.shadeNeoForge],
+]
+
+platforms.each { platform ->
+    def others = platforms - platform
+    def taskName = "shadowJar${platform.capitalize()}"
+    tasks.register(taskName, ShadowJar) {
+        group = 'build'
+        description = "Build the shaded ${platform} distribution JAR"
+        archiveBaseName = project.property('archives_base_name') as String
+        archiveVersion = "${project.version}+${platform}"
+        archiveClassifier = ''
+        configurations = shadeForPlatform[platform]
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn 'classes'
+
+        // Project classes: common + core + this platform only.
+        from(sourceSets.main.output.classesDirs) {
+            include 'org/refcraft/asyncscreenshot/common/**'
+            include 'org/refcraft/asyncscreenshot/core/**'
+            include "org/refcraft/asyncscreenshot/${platform}/**"
+            others.each { p -> exclude "org/refcraft/asyncscreenshot/${p}/**" }
+            // Stub annotations for @Mod — compile-time only; the loader
+            // provides the real net.minecraftforge.fml.common.Mod /
+            // net.neoforged.fml.common.Mod.
+            exclude 'net/minecraftforge/**'
+            exclude 'net/neoforged/**'
+            // Mixin API is provided by the loader at runtime.
+            exclude 'org/spongepowered/**'
+        }
+
+        // Project resources: shared config files + this platform's metadata.
+        from(sourceSets.main.output.resourcesDir) {
+            include 'asyncscreenshot.mixins.json'
+            switch (platform) {
+                case 'fabric':   include 'fabric.mod.json'; break
+                case 'forge':    include 'META-INF/mods.toml'; break
+                case 'neoforge': include 'META-INF/neoforge.mods.toml'; break
+            }
+        }
+
+        // Do NOT bundle net/fabricmc (the loader provides it), net/minecraft
+        // (never compiled against), or slf4j (loader-provided).
+        exclude 'net/fabricmc/**'
+        exclude 'net/minecraft/**'
+        exclude 'net/minecraftforge/**'
+        exclude 'net/neoforged/**'
+        exclude 'org/slf4j/**'
+        exclude 'META-INF/maven/**'
+        exclude 'META-INF/versions/**'
+        exclude 'LICENSE.txt', 'LICENSE'
+        exclude 'module-info.class'
+
+        manifest {
+            attributes(
+                'Implementation-Title': "AsyncScreenshot (${platform})",
+                'Implementation-Version': project.version
+            )
+        }
+    }
+}
+
+// The shadow plugin's default `shadowJar` task would bundle everything into a
+// single all-platform JAR — not what we want. Disable it (so it produces no
+// output) and re-route `./gradlew shadowJar` to build ALL per-platform JARs.
+def platformTasks = platforms.collect { "shadowJar${it.capitalize()}" }
+
+shadowJar {
+    enabled = false
+    dependsOn platformTasks
+}
+
+assemble.dependsOn platformTasks
+build.dependsOn platformTasks
